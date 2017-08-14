@@ -37,10 +37,8 @@ class Motion(object):
     def __init__(self, room_id, creator, question, choices):
         self.room_id = room_id
         self.creator = creator
-       # self.question = question
-        self.question = "woodchuckers"
-       # self.choices = choices
-        self.choices = ['aye','nay','abstain']
+        self.question = question
+        self.choices = choices
         self.votes = []
 
 
@@ -84,7 +82,8 @@ def ongoing_motion_callback(room, event):
     # See which part to handle
     if motion.question is None:
         motion.question = event['content']['body']
-        motion.choices = ['doh','rey','meh'] #SG
+        motion.choices = ['aye','nay','abstain'] #SG
+        #SG room.send_text("Okay, now send me the choices. Type !startmotion to start the motion.")
         room.send_text("Ready. Type !startmotion to start the motion.") #SG
         
     else:
@@ -207,7 +206,7 @@ def results_callback(room, event):
         response_str += "%d. %s: %d votes\n" % (i+1, motion.choices[i], num_votes)
 
     # Add the ending message
-    response_str += "To start a new motion, run !motion\n"
+    response_str += "To start a new motion, run !motion\n" #SG2
     room.send_text(response_str)
 
 # Vote for an ongoing motion
@@ -219,7 +218,7 @@ def vote_callback(room, event):
             motion = p
             break
     if motion is None:
-        room.send_text("There are no currently ongoing motions! Start a new one with !motion")
+        room.send_text("There are no currently ongoing motions! Start a new one with !motion") #SG2
         return
 
     # Verify arguments
@@ -259,7 +258,7 @@ def vote_callback(room, event):
 
 # Print help
 def motionhelp_callback(room, event):
-    help_str =  "!motion    - Create a new motion\n"
+    help_str =  "!motion    - Create a new motion\n" #SG2
     help_str += "!startmotion - Start a motion\n"
     help_str += "!info      - View an ongoing motion\n"
     help_str += "!vote      - Vote in an ongoing motion\n"
@@ -279,8 +278,8 @@ def main():
     # Start bot
     bot = MatrixBotAPI(username, password, server)
 
-    m_motion_handler = MCommandHandler('motion', newmotion_callback)
-    bot.add_handler(m_motion_handler)
+    m_newmotion_handler = MCommandHandler('motion', newmotion_callback)
+    bot.add_handler(m_newmotion_handler)
 
     m_ongoing_motion_handler = AllMessageHandler(ongoing_motion_callback)
     bot.add_handler(m_ongoing_motion_handler)
