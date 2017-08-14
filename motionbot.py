@@ -57,7 +57,7 @@ def newmotion_callback(room, event):
 
 
     # Create an incomplete Motion object and add it to ONGOING_MOTIONCREATIONS
-    new_motion = Motion(room.room_id, event['sender'], ['Woodchuckers?'], ['aye','nay','abstain'])
+    new_motion = Motion(room.room_id, event['sender'], ['Woodchuckers'], ['aye','nay','abstain'])
     ONGOING_MOTIONCREATIONS.append(new_motion)
 
     # Prompt the user for a question
