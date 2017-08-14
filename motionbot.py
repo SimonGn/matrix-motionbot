@@ -303,7 +303,7 @@ def main():
     bot.add_handler(m_motionhelp_handler)
 
 
-    bot.start_motioning()
+    bot.start_polling()
     print("Motionbot started!")
 
     while True:
