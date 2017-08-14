@@ -37,8 +37,10 @@ class Motion(object):
     def __init__(self, room_id, creator, question, choices):
         self.room_id = room_id
         self.creator = creator
-        self.question = question
-        self.choices = choices
+       # self.question = question
+        self.question = "woodchuckers"
+       # self.choices = choices
+        self.choices = ['aye','nay','abstain']
         self.votes = []
 
 
@@ -57,7 +59,7 @@ def newmotion_callback(room, event):
 
 
     # Create an incomplete Motion object and add it to ONGOING_MOTIONCREATIONS
-    new_motion = Motion(room.room_id, event['sender'], ['Woodchuckers'], ['aye','nay','abstain'])
+    new_motion = Motion(room.room_id, event['sender'], None, None)
     ONGOING_MOTIONCREATIONS.append(new_motion)
 
     # Prompt the user for a question
