@@ -42,7 +42,7 @@ class Motion(object):
         self.votes = []
 
 
-def motion_callback(room, event): #SG2
+def newmotion_callback(room, event):
     # Make sure we don't have an ongoing motion for this room
     for motion in ONGOING_MOTIONS:
         if motion.room_id == room.room_id:
@@ -61,7 +61,7 @@ def motion_callback(room, event): #SG2
     ONGOING_MOTIONCREATIONS.append(new_motion)
 
     # Prompt the user for a question
-    room.send_text("Creating a new motion. Please send the question.") #SG2
+    room.send_text("Creating a new motion. Please send the question.")
 
     # When they respond, it will be handled by the ongoing handler
 
@@ -132,7 +132,7 @@ def info_callback(room, event):
             motion = p
             break
     if motion is None:
-        room.send_text("There are no currently ongoing motions! Start a new one with !motion") #SG2
+        room.send_text("There are no currently ongoing motions! Start a new one with !motion")
         return
 
     response_str = ""
@@ -162,7 +162,7 @@ def endmotion_callback(room, event):
             motion = p
             break
     if motion is None:
-        room.send_text("There are no currently ongoing motions! Start a new one with !motion") #SG2
+        room.send_text("There are no currently ongoing motions! Start a new one with !motion")
         return
 
     # Make sure the sender is the creator of the motion
@@ -206,7 +206,7 @@ def results_callback(room, event):
         response_str += "%d. %s: %d votes\n" % (i+1, motion.choices[i], num_votes)
 
     # Add the ending message
-    response_str += "To start a new motion, run !motion\n" #SG2
+    response_str += "To start a new motion, run !motion\n"
     room.send_text(response_str)
 
 # Vote for an ongoing motion
@@ -218,7 +218,7 @@ def vote_callback(room, event):
             motion = p
             break
     if motion is None:
-        room.send_text("There are no currently ongoing motions! Start a new one with !motion") #SG2
+        room.send_text("There are no currently ongoing motions! Start a new one with !motion")
         return
 
     # Verify arguments
@@ -258,7 +258,7 @@ def vote_callback(room, event):
 
 # Print help
 def motionhelp_callback(room, event):
-    help_str =  "!motion    - Create a new motion\n" #SG2
+    help_str =  "!motion    - Create a new motion\n"
     help_str += "!startmotion - Start a motion\n"
     help_str += "!info      - View an ongoing motion\n"
     help_str += "!vote      - Vote in an ongoing motion\n"
@@ -278,8 +278,8 @@ def main():
     # Start bot
     bot = MatrixBotAPI(username, password, server)
 
-    m_motion_handler = MCommandHandler('motion', motion_callback) #SG2
-    bot.add_handler(m_motion_handler) #SG2
+    m_motion_handler = MCommandHandler('motion', newmotion_callback)
+    bot.add_handler(m_motion_handler)
 
     m_ongoing_motion_handler = AllMessageHandler(ongoing_motion_callback)
     bot.add_handler(m_ongoing_motion_handler)
